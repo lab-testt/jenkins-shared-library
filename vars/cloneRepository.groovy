@@ -1,12 +1,15 @@
-// shared-library-repo/vars/cloneRepository.groovy
+def call(body) {
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
 
-def call(String credentialsId, String repositoryUrl) {
     pipeline {
         agent any
         stages {
             stage('Clone Repository') {
                 steps {
-                    git branch: 'main', credentialsId: credentialsId, url: repositoryUrl
+                    git branch: config.branch, credentialsId: config.credentialsId, url: config.url
                 }
             }
         }
