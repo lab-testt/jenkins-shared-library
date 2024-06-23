@@ -1,17 +1,11 @@
-// shared-library-repo/vars/buildDockerImage.groovy
-
-def call(String dockerImage) {
+def call() {
     pipeline {
-        agent any {
-            docker {
-                image 'node:14'
-            }
-        }
+        agent any
         stages {
             stage('Build Docker Image') {
                 steps {
                     script {
-                        dockerImage = docker.build(dockerImage)
+                        dockerImage = docker.build("labbtest/Node.js-project:latest")
                     }
                 }
             }
