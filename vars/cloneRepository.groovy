@@ -1,18 +1,14 @@
-// File: vars/cloneRepository.groovy
+// shared-library-repo/vars/cloneRepository.groovy
 
-def call(body) {
-    // Default parameters
-    def params = [:]
-
-    // Evaluate the body block, allowing overrides of defaults
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = params
-    body()
-
-    // Stage code
-    stage('Clone Repository') {
-        steps {
-            git branch: params.branch ?: 'main', credentialsId: params.credentialsId ?: 'github', url: params.url
+def call(String credentialsId, String repositoryUrl) {
+    pipeline {
+        agent any
+        stages {
+            stage('Clone Repository') {
+                steps {
+                    git branch: 'main', credentialsId: credentialsId, url: repositoryUrl
+                }
+            }
         }
     }
 }
