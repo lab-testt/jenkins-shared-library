@@ -1,19 +1,19 @@
-// File: vars/buildDockerImage.groovy
+// shared-library-repo/vars/buildDockerImage.groovy
 
-def call(body) {
-    // Default parameters
-    def params = [:]
-
-    // Evaluate the body block, allowing overrides of defaults
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = params
-    body()
-
-    // Stage code
-    stage('Build Docker Image') {
-        steps {
-            script {
-                dockerImage = docker.build("${params.dockerImage}:latest")
+def call(String dockerImage) {
+    pipeline {
+        agent any {
+            docker {
+                image 'node:14'
+            }
+        }
+        stages {
+            stage('Build Docker Image') {
+                steps {
+                    script {
+                        dockerImage = docker.build(dockerImage)
+                    }
+                }
             }
         }
     }
