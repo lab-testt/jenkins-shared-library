@@ -1,10 +1,14 @@
-// File: vars/deploy.groovy
+// shared-library-repo/vars/deploy.groovy
 
-def call(body) {
-    // Stage code
-    stage('Deploy') {
-        steps {
-            sh 'docker-compose -f docker-compose.yml up -d'
+def call(String dockerComposeFile) {
+    pipeline {
+        agent any
+        stages {
+            stage('Deploy') {
+                steps {
+                    sh "docker-compose -f ${dockerComposeFile} up -d"
+                }
+            }
         }
     }
 }
