@@ -1,5 +1,3 @@
-// shared-library-repo/vars/installDockerCompose.groovy
-
 def call() {
     pipeline {
         agent any
